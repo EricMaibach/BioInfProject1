@@ -27,9 +27,6 @@ def reverse_complement(dna5_3):  # input is a strand from 5" to 3"
     
     return rc_dna5_3
 
-def create_dna(stranda, strandb):
-    return list(zip(stranda[::-1], strandb))
-
 def denaturation(dnalist):
     dnastrands = []
     for dna in dnalist:
@@ -38,13 +35,13 @@ def denaturation(dnalist):
     return dnastrands
 
 def get_primers():
-    return ('GCCCCGATTTCAGCTATGGT', 'TGACGCGCACTACAGTCAAT'[::-1])
+    return ('GCCCCGATTTCAGCTATGGT', 'TGACGCGCACTACAGTCAAT')
 
 def anneal(strands, primers):
     dnal = []
     for strand in strands:
         for primer in primers:
-            primerrc = get_complement(primer)
+            primerrc = reverse_complement(primer)
             pstart = strand.find(primerrc)
             if pstart != -1:
                 originalstrand = strand[pstart::]
@@ -52,12 +49,9 @@ def anneal(strands, primers):
 
     return dnal
 
-def string_to_list(str):
-    return [char for char in str]
-
 # Read nsp3 gene from 2720:8554
 nsp3_gene = get_gene(2720, 8554)
-cDNA_S = get_complement(nsp3_gene)
+cDNA_S = reverse_complement(nsp3_gene)
 rccDNA_S = nsp3_gene
 
 dnalist = [(''.join(cDNA_S), ''.join(rccDNA_S))]
