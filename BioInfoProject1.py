@@ -34,23 +34,26 @@ def denaturation(dnalist):
         dnastrands.append(dna[1])
     return dnastrands
 
+# primers are from 5' to 3'
 def get_primers():
-    return ('GCCCCGATTTCAGCTATGGT', 'TGACGCGCACTACAGTCAAT')
+    return ('GACGCGCAGGGAATGGATAA'[::-1], 'TGTGTGGCCAACCTCTTCTG'[::-1])
 
 def anneal(strands, primers):
     dnal = []
     for strand in strands:
         for primer in primers:
-            primerrc = reverse_complement(primer)
+            primerrc = get_complement(primer)
             pstart = strand.find(primerrc)
             if pstart != -1:
                 originalstrand = strand[pstart::]
                 dnal.append((originalstrand, primer))
+                break
 
     return dnal
 
 # Read nsp3 gene from 2720:8554
 nsp3_gene = get_gene(2720, 8554)
+
 cDNA_S = reverse_complement(nsp3_gene)
 rccDNA_S = nsp3_gene
 
@@ -61,6 +64,7 @@ primers = get_primers()
 strands = denaturation(dnalist)
 
 dnalist = anneal(strands, primers)
+
 
 for dna in dnalist:
     print()
