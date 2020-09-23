@@ -20,14 +20,6 @@ def get_complement(strand):
     strandr = strandr.replace('X', 'G')
     return strandr
 
-# param: a single strand 5" to 3" dna
-# return: a single strand 5" to 3" dna that is reverse complement to the input strand
-def reverse_complement(dna5_3):  # input is a strand from 5" to 3"
-    rc_dna5_3 = get_complement(dna5_3)
-    rc_dna5_3 = rc_dna5_3[::-1]  # reverse the complementary strand to have a strand from 5" to 3"
-    
-    return rc_dna5_3
-
 def denaturation(dnalist):
     dnastrands = []
     for dna in dnalist:
@@ -37,7 +29,7 @@ def denaturation(dnalist):
 
 # primers are from 5' to 3'
 def get_primers():
-    return ('GACGCGCAGGGAATGGATAA'[::-1], 'TGTGTGGCCAACCTCTTCTG'[::-1])
+    return ('GACGCGCAGGGAATGGATAA', 'TGTGTGGCCAACCTCTTCTG')
 
 def anneal(strands, primers):
     dnal = []
@@ -66,55 +58,27 @@ def elongation(dnalist):
     return newdnalist
         
 
-d = 600
-r_range = 1
+d = 200
+r_range = 30
 
 
 # Read nsp3 gene from 2720:8554
 nsp3_gene = get_gene(2720, 8554)
 
-cDNA_S = reverse_complement(nsp3_gene)
-rccDNA_S = nsp3_gene
+cDNA_S = get_complement(nsp3_gene)
+rccDNA_S = nsp3_gene[::-1]
 
 dnalist = [(''.join(cDNA_S), ''.join(rccDNA_S))]
 
-print("dnalist length")
-print(len(dnalist))
-
 primers = get_primers()
 
-strands = denaturation(dnalist)
+count = 0
 
-print("strand length")
-print(len(strands))
-
-dnalist = anneal(strands, primers)
-
-print("dnalist length")
-print(len(dnalist))
-
-dnalist = elongation(dnalist)
+while (count < 20):
+    count = count + 1
+    strands = denaturation(dnalist)
+    dnalist = anneal(strands, primers)
+    dnalist = elongation(dnalist)
 
 print("dnalist length")
 print(len(dnalist))
-
-strands = denaturation(dnalist)
-
-print("strand length")
-print(len(strands))
-
-dnalist = anneal(strands, primers)
-
-print("dnalist length")
-print(len(dnalist))
-
-dnalist = elongation(dnalist)
-
-print("dnalist length")
-print(len(dnalist))
-
-
-# for dna in dnalist:
-#     print()
-#     print(dna[0])
-#     print(dna[1])
