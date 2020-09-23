@@ -1,5 +1,6 @@
 import os
 import random
+import matplotlib.pyplot as plt
 
 def get_gene(start, end):
     file = open('SARS_COV2.fasta', 'r')
@@ -74,6 +75,7 @@ primers = get_primers()
 
 count = 0
 
+print("Starting PCR loop")
 while (count < 20):
     count = count + 1
     strands = denaturation(dnalist)
@@ -82,10 +84,14 @@ while (count < 20):
 
 size = 0
 gcContent = 0
+sizes = []
+
+print("Starting Stat loop")
 for dna in dnalist:
     size = size + len(dna[0])
     gcContent = gcContent + dna[0].count('G')
     gcContent = gcContent + dna[0].count('C')
+    sizes.append(len(dna[0]))
 
 print("dnalist length")
 print(len(dnalist))
@@ -109,3 +115,6 @@ print()
 
 print("Avg GC content")
 print(gcContent / size)
+
+fig = plt.hist(sizes, bins=7)
+plt.savefig('./hist.png')
