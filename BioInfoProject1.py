@@ -81,12 +81,11 @@ while (count < 20):
     dnalist = elongation(dnalist)
 
 size = 0
-averageGC = 0
+gcContent = 0
 for dna in dnalist:
     size = size + len(dna[0])
-    gcContent = dna[0].count('G')
+    gcContent = gcContent + dna[0].count('G')
     gcContent = gcContent + dna[0].count('C')
-    averageGC = averageGC + (gcContent / len(dna[0]))
 
 print("dnalist length")
 print(len(dnalist))
@@ -109,4 +108,4 @@ print(size / len(dnalist))
 print()
 
 print("Avg GC content")
-print(averageGC / len(dnalist))
+print(gcContent / size)
