@@ -80,5 +80,33 @@ while (count < 20):
     dnalist = anneal(strands, primers)
     dnalist = elongation(dnalist)
 
+size = 0
+averageGC = 0
+for dna in dnalist:
+    size = size + len(dna[0])
+    gcContent = dna[0].count('G')
+    gcContent = gcContent + dna[0].count('C')
+    averageGC = averageGC + (gcContent / len(dna[0]))
+
 print("dnalist length")
 print(len(dnalist))
+
+print()
+
+print("Max size of DNA Fragments")
+print(len(max(dnalist)[0]))
+
+print()
+
+print("Min size of DNA Fragments")
+print(len(min(dnalist)[0]))
+
+print()
+
+print("Avg size of DNA Fragments")
+print(size / len(dnalist))
+
+print()
+
+print("Avg GC content")
+print(averageGC / len(dnalist))
